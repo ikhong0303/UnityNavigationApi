@@ -77,8 +77,8 @@ namespace UnityARInterface
                     return;
 
                 m_BackgroundRendering = value;
-                //m_BackgroundRenderer.mode = m_BackgroundRendering ? 
-                    //ARRenderMode.MaterialAsBackground : ARRenderMode.StandardBackground;
+               /* m_BackgroundRenderer.mode = m_BackgroundRendering ? 
+                    ARRenderMode.MaterialAsBackground : ARRenderMode.StandardBackground;*/
             }
         }
 
@@ -165,7 +165,7 @@ namespace UnityARInterface
             TextureReader_destroy();
             BackgroundRendering = false;
             m_BackgroundRenderer.customMaterial = null;
-            //m_BackgroundRenderer.camera = null;
+            // m_BackgroundRenderer.camera = null;
             m_BackgroundRenderer = null;
             IsRunning = false;
         }

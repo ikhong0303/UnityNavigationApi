@@ -85,8 +85,8 @@ namespace Mapbox.Unity.Telemetry
 
 			while (!postRequest.isDone) { yield return null; }
 
-			if (!postRequest.isNetworkError)
-			{
+            if (postRequest.result != UnityWebRequest.Result.ConnectionError && postRequest.result != UnityWebRequest.Result.ProtocolError)
+            {
 #else
 				var headers = new Dictionary<string, string>();
 				headers.Add("Content-Type", "application/json");
@@ -100,7 +100,7 @@ namespace Mapbox.Unity.Telemetry
 				if (!string.IsNullOrEmpty(www.error))
 				{
 #endif
-				PlayerPrefs.SetString(Constants.Path.TELEMETRY_TURNSTILE_LAST_TICKS_EDITOR_KEY, "0");
+                PlayerPrefs.SetString(Constants.Path.TELEMETRY_TURNSTILE_LAST_TICKS_EDITOR_KEY, "0");
 			}
 			else
 			{

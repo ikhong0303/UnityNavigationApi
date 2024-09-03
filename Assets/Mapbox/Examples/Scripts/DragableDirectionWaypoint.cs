@@ -25,5 +25,10 @@ namespace Mapbox.Examples
 				MoveTarget.position = ray.GetPoint(enter);
 			}
 		}
+
+		void DestinationChange()
+		{
+
+		}
 	}
 }

@@ -255,27 +255,28 @@ namespace Mapbox.Platform
 				response.AddException(apiEx);
 			}
 
-			// additional string.empty check for apiResponse.error:
-			// on UWP isNetworkError is sometimes set to true despite all being well
-			if (apiResponse.isNetworkError && !string.IsNullOrEmpty(apiResponse.error))
-			{
-				response.AddException(new Exception(apiResponse.error));
-			}
+            // apiResponse.result가 ConnectionError나 ProtocolError를 나타내는지 확인하고,
+            // apiResponse.error가 비어있지 않은 경우 예외를 추가합니다.
+            if ((apiResponse.result == UnityWebRequest.Result.ConnectionError || apiResponse.result == UnityWebRequest.Result.ProtocolError) && !string.IsNullOrEmpty(apiResponse.error))
+            {
+                response.AddException(new Exception(apiResponse.error));
+            }
 
-			if (request.RequestType != HttpRequestType.Head)
-			{
-				if (null == apiResponse.downloadHandler.data)
-				{
-					response.AddException(new Exception("Response has no data."));
-				}
-			}
+            if (request.RequestType != HttpRequestType.Head)
+            {
+                if (apiResponse.downloadHandler.data == null)
+                {
+                    response.AddException(new Exception("Response has no data."));
+                }
+            }
+
 
 #if NETFX_CORE
 			StringComparison stringComp = StringComparison.OrdinalIgnoreCase;
 #elif WINDOWS_UWP
 			StringComparison stringComp = StringComparison.OrdinalIgnoreCase;
 #else
-			StringComparison stringComp = StringComparison.InvariantCultureIgnoreCase;
+            StringComparison stringComp = StringComparison.InvariantCultureIgnoreCase;
 #endif
 
 			Dictionary<string, string> apiHeaders = apiResponse.GetResponseHeaders();
